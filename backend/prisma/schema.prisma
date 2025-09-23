@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  student
+  staff
+  visitor
+  admin
+  enforcement
+}
+
+enum LotType {
+  surface
+  garage
+}
+
+enum ReservationStatus {
+  reserved
+  cancelled
+  used
+}
+
+enum TicketStatus {
+  open
+  paid
+  appealed
+}
+
+model User {
+  id           String   @id @default(uuid())
+  campusId     String   @unique
+  role         Role
+  email        String   @unique
+  password     String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  permits      Permit[]
+  reservations Reservation[]
+}
+
+model Permit {
+  id          String   @id @default(uuid())
+  type        String
+  allowedLots String[]
+  validTimes  Json
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+}
+
+model Lot {
+  id               String   @id @default(uuid())
+  name             String
+  capacity         Int
+  gpsBounds        String   // polygon WKT
+  lotType          LotType
+  rules            Json
+  currentOccupancy Int      @default(0)
+  reservations     Reservation[]
+}
+
+model Event {
+  id           String   @id @default(uuid())
+  title        String
+  start        DateTime
+  end          DateTime
+  reservedLots String[]
+  source       String?   // feed source id/url
+  createdAt    DateTime @default(now())
+  reservations Reservation[]
+}
+
+model Reservation {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  lot       Lot      @relation(fields: [lotId], references: [id])
+  lotId     String
+  event     Event?   @relation(fields: [eventId], references: [id])
+  eventId   String?
+  status    ReservationStatus @default(reserved)
+  createdAt DateTime @default(now())
+}
+
+model Ticket {
+  id           String   @id @default(uuid())
+  plateHash    String
+  timestamp    DateTime @default(now())
+  lotId        String
+  ruleViolated String
+  photoRef     String?
+  status       TicketStatus @default(open)
+}
+
