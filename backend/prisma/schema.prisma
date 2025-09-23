@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String?
+  campusId     String
+  role         String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  permits      Permit[]
+  reservations Reservation[]
+}
+
+model Permit {
+  id          String      @id @default(uuid())
+  type        String
+  allowedLots String      // JSON stringified array
+  validTimes  String      // JSON stringified
+  users       User[]
+}
+
+model Lot {
+  id                String   @id @default(uuid())
+  capacity          Int
+  gpsBounds         String   // JSON stringified GeoJSON
+  lotType           String
+  rules             String   // JSON stringified
+  currentOccupancy  Int      @default(0)
+  reserveLink       String?
+  occupancyReadings OccupancyReading[]
+  reservations      Reservation[]
+}
+
+model Event {
+  id           String   @id @default(uuid())
+  title        String
+  start        DateTime
+  end          DateTime
+  reservedLots String   // JSON stringified array
+  reservations Reservation[]
+  createdAt    DateTime @default(now())
+}
+
+model Reservation {
+  id        String             @id @default(uuid())
+  user      User               @relation(fields: [userId], references: [id])
+  userId    String
+  lot       Lot                @relation(fields: [lotId], references: [id])
+  lotId     String
+  event     Event?             @relation(fields: [eventId], references: [id])
+  eventId   String?
+  status    String             @default("reserved")
+  createdAt DateTime           @default(now())
+}
+
+model Ticket {
+  id           String       @id @default(uuid())
+  plateHash    String
+  timestamp    DateTime     @default(now())
+  lotId        String
+  ruleViolated String
+  photoRef     String?
+  status       String       @default("open")
+}
+
+model OccupancyReading {
+  id        String   @id @default(uuid())
+  lot       Lot      @relation(fields: [lotId], references: [id])
+  lotId     String
+  timestamp DateTime @default(now())
+  occupancy Int
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  actorId   String
+  action    String
+  metadata  String   // JSON stringified
+  createdAt DateTime @default(now())
+}
+
