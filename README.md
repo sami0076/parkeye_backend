@@ -1,2 +1,0 @@
-# parkeye
-ParkEye Software
