@@ -31,3 +31,23 @@ async def get_upcoming_events_for_lot(
         return list(events)
     cutoff = now + timedelta(days=within_days)
     return [e for e in events if e.start_time <= cutoff]
+
+
+async def get_upcoming_events(
+    db: AsyncSession,
+    *,
+    within_days: int = 7,
+) -> list:
+    """
+    Return all upcoming campus events whose end_time is still in the future
+    and whose start_time falls within the next *within_days* days.
+    """
+    now = datetime.now(timezone.utc)
+    cutoff = now + timedelta(days=within_days)
+    result = await db.execute(
+        select(CampusEvent).where(
+            CampusEvent.end_time >= now,
+            CampusEvent.start_time <= cutoff,
+        ).order_by(CampusEvent.start_time)
+    )
+    return list(result.scalars().all())

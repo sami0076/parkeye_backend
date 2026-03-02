@@ -12,3 +12,7 @@ class EventSummary(BaseModel):
     impact_level: str
 
     model_config = {"from_attributes": True}
+
+
+class EventListResponse(BaseModel):
+    events: list[EventSummary]

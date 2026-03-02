@@ -58,3 +58,37 @@ async def get_current_user(
     elif "app_metadata" in payload and isinstance(payload["app_metadata"], dict):
         role = payload["app_metadata"].get("role", "user")
     return User(id=UUID(sub), role=role)
+
+
+async def get_optional_user(
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
+) -> User | None:
+    """Return the authenticated user if a valid JWT is present, else None (guest)."""
+    if credentials is None:
+        return None
+    token = credentials.credentials
+    try:
+        payload = jwt.decode(
+            token,
+            settings.SUPABASE_JWT_SECRET,
+            algorithms=["HS256"],
+        )
+    except JWTError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    sub = payload.get("sub")
+    if not sub:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token: missing sub",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    role = "user"
+    if "role" in payload:
+        role = payload["role"]
+    elif "app_metadata" in payload and isinstance(payload["app_metadata"], dict):
+        role = payload["app_metadata"].get("role", "user")
+    return User(id=UUID(sub), role=role)
