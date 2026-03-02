@@ -1,0 +1,102 @@
+[
+  {
+    "id": "a1b2c3d4-0001-4000-8000-000000000001",
+    "name": "Lot A",
+    "capacity": 850,
+    "permit_types": ["general", "faculty"],
+    "lat": 38.8345,
+    "lon": -77.3075,
+    "is_deck": false,
+    "floors": null
+  },
+  {
+    "id": "a1b2c3d4-0002-4000-8000-000000000002",
+    "name": "Lot C",
+    "capacity": 620,
+    "permit_types": ["general"],
+    "lat": 38.8321,
+    "lon": -77.3089,
+    "is_deck": false,
+    "floors": null
+  },
+  {
+    "id": "a1b2c3d4-0003-4000-8000-000000000003",
+    "name": "Lot K",
+    "capacity": 540,
+    "permit_types": ["general", "west_campus"],
+    "lat": 38.8298,
+    "lon": -77.3132,
+    "is_deck": false,
+    "floors": null
+  },
+  {
+    "id": "a1b2c3d4-0004-4000-8000-000000000004",
+    "name": "Lot L",
+    "capacity": 430,
+    "permit_types": ["general"],
+    "lat": 38.8274,
+    "lon": -77.3058,
+    "is_deck": false,
+    "floors": null
+  },
+  {
+    "id": "a1b2c3d4-0005-4000-8000-000000000005",
+    "name": "Lot P",
+    "capacity": 380,
+    "permit_types": ["general", "resident"],
+    "lat": 38.8359,
+    "lon": -77.3112,
+    "is_deck": false,
+    "floors": null
+  },
+  {
+    "id": "a1b2c3d4-0006-4000-8000-000000000006",
+    "name": "Rappahannock River Parking Deck",
+    "capacity": 1450,
+    "permit_types": ["general", "faculty", "visitor"],
+    "lat": 38.8330,
+    "lon": -77.3098,
+    "is_deck": true,
+    "floors": 5
+  },
+  {
+    "id": "a1b2c3d4-0007-4000-8000-000000000007",
+    "name": "Shenandoah Parking Deck",
+    "capacity": 1200,
+    "permit_types": ["general", "faculty"],
+    "lat": 38.8312,
+    "lon": -77.3055,
+    "is_deck": true,
+    "floors": 4
+  },
+  {
+    "id": "a1b2c3d4-0008-4000-8000-000000000008",
+    "name": "Mason Pond Parking Deck",
+    "capacity": 1100,
+    "permit_types": ["general", "visitor"],
+    "lat": 38.8285,
+    "lon": -77.3072,
+    "is_deck": true,
+    "floors": 4
+  },
+  {
+    "id": "a1b2c3d4-0009-4000-8000-000000000009",
+    "name": "Sandy Creek Parking Deck",
+    "capacity": 950,
+    "permit_types": ["general", "west_campus", "resident"],
+    "lat": 38.8267,
+    "lon": -77.3145,
+    "is_deck": true,
+    "floors": 6
+  },
+  {
+    "id": "a1b2c3d4-0010-4000-8000-000000000010",
+    "name": "West Campus Lot",
+    "capacity": 700,
+    "permit_types": ["west_campus", "resident"],
+    "lat": 38.8253,
+    "lon": -77.3168,
+    "is_deck": false,
+    "floors": null
+  }
+]
