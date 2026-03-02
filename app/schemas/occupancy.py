@@ -13,6 +13,17 @@ class OccupancySnapshot(BaseModel):
     model_config = {"from_attributes": True}
 
 
+class OccupancyHistoryPoint(BaseModel):
+    hour_of_day: int
+    day_of_week: int
+    occupancy_pct: float
+    color: str
+
+
+class OccupancyHistoryResponse(BaseModel):
+    data: list[OccupancyHistoryPoint]
+
+
 class PredictionPoint(BaseModel):
     pct: float
     color: str
